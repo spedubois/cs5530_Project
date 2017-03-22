@@ -10,7 +10,7 @@ public class TestSQL {
 	{
 		String query;
 		String resultstr="";
-		ResultSet results; 
+		ResultSet results;
 		query="Select login from Users";
 		try{
 			results = stmt.executeQuery(query);
@@ -19,11 +19,11 @@ public class TestSQL {
 	                System.err.println(e.getMessage());
 			throw(e);
 		}
-		System.out.println("Order:getOrders query="+query+"\n");
+		System.out.println("Order:getLogins query = "+query+"\n");
 		while (results.next()){
-			resultstr += "<b>"+results.getString("login");	
+			resultstr += results.getString("login") + "\n";	
 		}
-		return resultstr;
+		return "Logins: \n" + resultstr;
 	}
 
 }

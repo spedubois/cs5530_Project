@@ -43,7 +43,7 @@ session.setPassword(sshPassword);
 session.setConfig(config);
 session.connect();
 
-int assigned_port = session.setPortForwardingL(lport, rhost, rport);
+//int assigned_port = session.setPortForwardingL(lport, rhost, rport);
 
 
 // mysql database connectivity
