@@ -16,17 +16,14 @@ public class RegistrationSQL {
         } catch(Exception e) {
         	if(e.getMessage().contains("Duplicate entry"))
         	{
-            	System.out.println("Dupe entry.");
             	return "User already exists.";
         	}else
         	{
     			System.err.println("Unable to execute query:"+query+"\n");
-    	                System.err.println(e.getMessage());
+    	        System.err.println(e.getMessage());
     			throw(e);
         	}
 		}
-		System.out.println("Order:newUserReg query = "+query+"\n");
-		
 		return "New User Registered.";
 	}
 

@@ -16,15 +16,19 @@ public class test2 {
     	 //System.out.println("1. Display all registered logins:");
     	 System.out.println("1. Register new user:");
     	 System.out.println("2. Exsisting user login:");
-    	 System.out.println("3. exit:");
+    	 System.out.println("3. Exit:");
     	 System.out.println("Please enter your choice:");
 	}
 	
 	public static void displayLoggedInMenu()
 	{
 		 System.out.println("        Welcome to the Uotel System     ");
-    	 System.out.println("1. Display all registered logins:");
-    	 System.out.println("2. exit:");
+    	 System.out.println("5. Choose your favorite place to stay:");
+    	 System.out.println("6. Enter feedback for a house:");
+    	 System.out.println("7. Rate usefulness of feedback:");
+    	 System.out.println("8. Declare another user as trusted:");
+    	 System.out.println("10. Find most useful feedbacks:");
+    	 System.out.println("15. Exit:");
     	 System.out.println("Please enter your choice:");
 	}
 	
@@ -32,7 +36,7 @@ public class test2 {
 	{
 		Connector con=null;
 		String choice;
-        String login,name,password,phoneNum,address;
+        String login = "",name,password,phoneNum,address,userInput;
         String sql=null;
         int c=0;
          try
@@ -57,13 +61,148 @@ public class test2 {
 		            		 
 		            		 continue;
 		            	 }
-		            	 if (c<1 | c>3)
+		            	 if (c<1 | c>15)
 		            		 continue;
 		            	 
 	            		 if (c==1)
 		            	 {
 		            		 TestSQL test = new TestSQL();
 		            		 System.out.println(test.get(con.stmt));
+		            	 }else if(c == 5) //Add a favorite
+		            	 {
+		            		 System.out.println("1. Add a favorite:");
+		            		 System.out.println("2. Delete a favorite:");
+		            		 System.out.println("3. Go back:");
+		            		 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+		            		 int tempChoice;
+		            		 try{
+		            			 tempChoice = Integer.parseInt(userInput);
+			            	 }catch (Exception e)
+			            	 {
+			            		 continue;
+			            	 }
+		            		 
+		            		 switch(tempChoice)
+		            		 {
+		            		 	case 1:
+		            		 	{
+				            		 System.out.println("Please enter the house you would like to favorite (by the house's id number):");
+					            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+					            	 
+					            	 Favorites fav = new Favorites();
+					            	 
+					            	 String result = fav.get(con.stmt,userInput,login,true);
+					            	 System.out.println(result);
+					            	 break;
+		            		 	}
+		            		 	case 2:
+		            		 	{
+				            		 System.out.println("Please enter the house you would like to unfavorite (by the house's id number):");
+					            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+					            	 
+					            	 Favorites fav = new Favorites();
+					            	 
+					            	 String result = fav.get(con.stmt,userInput,login,false);
+					            	 System.out.println(result);
+		            		 	}
+		            		 	default:
+		            		 	{
+		            		 		continue;
+		            		 	}
+		            		 }
+			            	 
+		            	 }else if(c == 6) //Add Feedback
+		            	 {
+		            		 System.out.println("Please enter the house you would like to leave feedback for (by the house's id number):");
+			            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+			            	 String hid = userInput;
+			            	 
+			            	 ResultSet rs = con.stmt.executeQuery("SELECT hid FROM TH WHERE hid = '" + hid + "'");
+			            	 ResultSetMetaData rsmd = rs.getMetaData();
+			            	 
+			            	 if(rs.isBeforeFirst())
+			            	 {
+			            		 System.out.println("Please enter the feedback score:");
+				            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+				            	 String score = userInput;
+				            	 System.out.println("Please enter any feedback you would like to leave:");
+				            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+				            	 String feedback = "" + userInput;
+				            	 
+				            	 Feedback feed = new Feedback();
+				            	 
+				            	 String result = feed.get(con.stmt,hid,score,feedback,login);
+				            	 System.out.println(result);
+			            	 }
+			            	 else
+			            	 {
+			            		 System.out.println("That house does not exist.");
+			            	 }
+			            	 
+		            	 }else if(c == 7) //Rate Feedback
+		            	 {
+		            		 System.out.println("Please enter the feedback you would like to rate (by the feedback's id number):");
+			            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+			            	 String fid = userInput;
+			            	 
+			            	 ResultSet rs = con.stmt.executeQuery("SELECT login FROM Feedback WHERE fid = '" + fid + "'");
+			            	 ResultSetMetaData rsmd = rs.getMetaData();
+			            	 
+			            	 if(rs.isBeforeFirst())
+			            	 {
+			            		 rs.next();
+			            		 if(!(rs.getString("login").toLowerCase() == login.toLowerCase()))
+			            		 {
+				            		 System.out.println("Please enter the rating (0-2):");
+					            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+					            	 String rating = userInput;
+					            	 
+					            	 FeedbackRate rate = new FeedbackRate();
+					            	 
+					            	 String result = rate.get(con.stmt,fid,rating,login);
+					            	 System.out.println(result);
+			            		 }else
+			            		 {
+			            			 System.out.println("You cannot rate your own feedback.");
+			            		 }
+			            	 }
+			            	 else
+			            	 {
+			            		 System.out.println("That feedback does not exist.");
+			            	 }
+			            	 
+		            	 }else if(c == 8) //Trust or distrust
+		            	 {
+		            		 System.out.println("Please enter the login of the person you want to trust or not trust:");
+			            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+			            	 String login2 = userInput;
+			            	 
+			            	 
+			            	 System.out.println("Please enter 0 to not trust and 1 to trust:");
+			            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+			            	 String isTrusted = userInput;
+			            	 
+			            	 Trust trusted = new Trust();
+			            	 
+			            	 String result = trusted.get(con.stmt,login,login2,isTrusted);
+			            	 System.out.println(result);
+			            	 
+		            	 }else if(c == 10) //Useful feedbacks
+		            	 {
+		            		 System.out.println("Please enter the house you want the most useful feedback for (by house's id number):");
+			            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+			            	 String hid = userInput;
+			            	 
+			            	 
+			            	 System.out.println("Please enter how many feedbacks you would like:");
+			            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+			            	 String count = userInput;
+			            	 
+			            	 Useful useful = new Useful();
+			            	 
+			            	 String result = useful.get(con.stmt,hid,count);
+			            	 System.out.println(result);
+			            	 
 		            	 }else
 		            	 {   
 		            		 System.out.println("Thank you for using Uotel.");
@@ -86,7 +225,7 @@ public class test2 {
 		            	 if (c<1 | c>3)
 		            		 continue;
 		            	 
-		            	 if(c==1)
+		            	 if(c==1) //Create new login
 		            	 {	
 		            		System.out.println("Please enter a login:");
 		            	 	while ((login = in.readLine()) == null && login.length() == 0);
@@ -119,7 +258,7 @@ public class test2 {
 		            		rs.next();
 		            		System.out.println("Welcome " + rs.getString("name"));
 		            		loggedIn = true;
-		            	 }else if(c==2)
+		            	 }else if(c==2) // Login to existing account
 		            	 {	
 		            		System.out.println("Please enter your login:");
 		            	 	while ((login = in.readLine()) == null && login.length() == 0);
