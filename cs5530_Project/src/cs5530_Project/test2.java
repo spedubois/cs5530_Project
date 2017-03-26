@@ -1,6 +1,11 @@
 package cs5530_Project;
 
 import java.sql.*;
+
+import phase2.AddTHSQL;
+import phase2.GetTH;
+import phase2.THDetails;
+
 import java.io.*;
 
 public class test2 {
@@ -9,6 +14,7 @@ public class test2 {
 	 * @param args
 	 */
 	static boolean loggedIn = false;
+	static boolean reserve = false;
 	
 	public static void displayMenu()
 	{
@@ -23,6 +29,9 @@ public class test2 {
 	public static void displayLoggedInMenu()
 	{
 		 System.out.println("        Welcome to the Uotel System     ");
+    	 System.out.println("2. Reserve:");
+    	 System.out.println("3. Add new house:");
+    	 System.out.println("4. Edit existing house:");
     	 System.out.println("5. Choose your favorite place to stay:");
     	 System.out.println("6. Enter feedback for a house:");
     	 System.out.println("7. Rate usefulness of feedback:");
@@ -51,6 +60,29 @@ public class test2 {
 	             {
 	            	 if(loggedIn)
 	            	 {
+	            		 if(reserve)
+	            		 {
+	            			 choice = in.readLine();
+	            			 
+	            			 THDetails test = new THDetails();
+	            			 System.out.println(test.get(con.stmt, choice));
+	            			 String choice1 = in.readLine();
+	            			 if(choice1.equals("0")){
+	            				 reserve = false;
+	            				 continue;
+	            			 }
+	            			 System.out.println(test.Confirm(con.stmt, choice1));
+	            			 String choice3 = in.readLine();
+	            			 if(choice3.equals("1"))
+	            			 {
+	            				 reserve = false;
+	            				 String query = "Insert into Reserve(login, hid, pid)"
+	            						 +" values('"+login+"', "+choice+", "+choice1+");";
+	            				 con.stmt.executeUpdate(query);
+	            				 
+	            				 System.out.println("You have succesfully made a reservation! returning you to the main screen.\n");
+	            			 }
+	            		 }
 	            		 displayLoggedInMenu();
 	            		 
 	            		 while ((choice = in.readLine()) == null && choice.length() == 0);
@@ -68,7 +100,78 @@ public class test2 {
 		            	 {
 		            		 TestSQL test = new TestSQL();
 		            		 System.out.println(test.get(con.stmt));
-		            	 }else if(c == 5) //Add a favorite
+		            	 }else if(c == 2)
+		            	 {
+		            		 GetTH test = new GetTH();
+		            		 System.out.println(test.get(con.stmt));
+		            		 reserve = true;
+		            		 continue;
+		            	 }
+		            	 else if(c == 3)
+		            	 {
+		            		 String category, address1, url, tele, built,next, city, state;
+		            		 AddTHSQL test = new AddTHSQL();
+		            		 System.out.println("Please enter the category:");
+			            	 while ((category = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Please enter the address:");
+			            	 while ((address1 = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Please enter the url:");
+			            	 while ((url = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Please enter the phone number:");
+			            	 while ((tele = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Please enter the year built:");
+			            	 while ((built = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Please enter the city:");
+			            	 while ((city = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Please enter the state:");
+			            	 while ((state = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Are you sure you would like to add this house?\n"
+			         				+ category + ", "+address1 + ", "+url + ", "+tele + ", "+built+
+			         				" "+city+" "+state+"'\n"
+			         				+ "Select 1 for yest, 0 for no.");
+			            	 while ((next = in.readLine()) == null && login.length() == 0);
+			            	 if(next.equals("1"))
+			            	 {
+			            		 test.addNew(con.stmt, category, address1, url, tele, built, city, state);
+				            	 test.addList(con.stmt, login);
+				            	 
+			            	 }
+			            	 
+			            	 continue;
+		            	 }
+		            	 else if(c==4)
+		            	 {
+		            		 String category, address1, url, tele, built, hid, city, state, next;
+		            		 AddTHSQL test = new AddTHSQL();
+		            		 System.out.println(test.getList(con.stmt, login));
+		            		 while ((hid = in.readLine()) == null && login.length() == 0);
+		            		 System.out.println("Please enter the new category:");
+			            	 while ((category = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Please enter the new address:");
+			            	 while ((address1 = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Please enter the new url:");
+			            	 while ((url = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Please enter the new phone number:");
+			            	 while ((tele = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Please enter the new year built:");
+			            	 while ((built = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Please enter the new city:");
+			            	 while ((city = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Please enter the state:");
+			            	 while ((state = in.readLine()) == null && login.length() == 0);
+			            	 System.out.println("Are you sure you would like to make these changes to the house?\n"
+			         				+ category + ", "+address1 + ", "+url + ", "+tele + ", "+built+
+			         				" "+city+" "+state+"'\n"
+			         				+ "Select 1 for yest, 0 for no.");
+			            	 while ((next = in.readLine()) == null && login.length() == 0);
+			            	 if(next.equals("1"))
+			            	 {
+			            		 test.update(con.stmt, category, address1, url, tele, built, hid, city, state);
+			            	 }
+			            	 continue;
+		            	 }
+
+	            		 else if(c == 5) //Add a favorite
 		            	 {
 		            		 System.out.println("1. Add a favorite:");
 		            		 System.out.println("2. Delete a favorite:");
