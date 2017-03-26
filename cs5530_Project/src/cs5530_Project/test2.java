@@ -2,10 +2,6 @@ package cs5530_Project;
 
 import java.sql.*;
 
-import phase2.AddTHSQL;
-import phase2.GetTH;
-import phase2.THDetails;
-
 import java.io.*;
 
 public class test2 {
@@ -37,6 +33,7 @@ public class test2 {
     	 System.out.println("7. Rate usefulness of feedback:");
     	 System.out.println("8. Declare another user as trusted:");
     	 System.out.println("10. Find most useful feedbacks:");
+    	 System.out.println("11. Add a visit:");
     	 System.out.println("15. Exit:");
     	 System.out.println("Please enter your choice:");
 	}
@@ -170,7 +167,7 @@ public class test2 {
 			            	 }
 			            	 continue;
 		            	 }
-
+	            		 
 	            		 else if(c == 5) //Add a favorite
 		            	 {
 		            		 System.out.println("1. Add a favorite:");
@@ -306,7 +303,22 @@ public class test2 {
 			            	 String result = useful.get(con.stmt,hid,count);
 			            	 System.out.println(result);
 			            	 
-		            	 }else
+		            	 }else if(c==11)
+		            	 {
+		            		 String hid,pid,choice1;
+		            		 VisitSQL test = new VisitSQL();
+		            		 test.setVisit(con.stmt, login);
+		            		 System.out.println("Select the house(hid):");
+		            		 while ((hid = in.readLine()) == null && login.length() == 0);
+		            		 System.out.println("Select the period(pid):");
+		            		 while ((pid = in.readLine()) == null && login.length() == 0);
+		            		 System.out.println("Are you sure you would like to reserve\n"+
+		            		 "house: "+hid+" pid: "+pid+"?\nSelect 1 for yes, 0 for no");
+		            		 while ((choice1 = in.readLine()) == null && login.length() == 0);
+		            		 if(choice1.equals("1"))
+		            			 test.addVisit(con.stmt, login, hid, pid);
+		            		 continue;
+		            	 }
 		            	 {   
 		            		 System.out.println("Thank you for using Uotel.");
 		            		 con.stmt.close(); 

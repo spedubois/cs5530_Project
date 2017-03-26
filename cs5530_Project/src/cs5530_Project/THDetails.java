@@ -32,7 +32,7 @@ public THDetails(){}
 					"      " + results.getString("cost_per_night") + "\n";	
 		}
 		
-		return "Select:   From:          To:        Cost:\n" + resultstr + "\n Which time would you like? (from Select column)\n";
+		return "Select:   From:          To:        Cost:\n" + resultstr + "\n Which time would you like? (from Select column or 0 to exit)\n";
 	}
 	public String Confirm(Statement stmt, String i) throws Exception
 	{
