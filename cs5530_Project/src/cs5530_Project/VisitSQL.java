@@ -25,7 +25,7 @@ public class VisitSQL {
 		while (results.next()){
 			resultstr += results.getString("hid") + "         " + results.getString("pid")+"\n";	
 		}
-		System.out.println("hid:    pid:\n"+resultstr);
+		System.out.println("hid:    pid:\n"+resultstr+"\n");
 	}
 	public void addVisit(Statement stmt, String login, String hid, String pid) throws Exception
 	{
@@ -38,7 +38,7 @@ public class VisitSQL {
 	                System.err.println(e.getMessage());
 			throw(e);
 		}
-		System.out.println("You have successfully added your visit!");
+		System.out.println("You have successfully added your visit!\n");
 	}
 
 }

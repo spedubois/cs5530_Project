@@ -56,4 +56,25 @@ public THDetails(){}
 		return "Select:   From:          To:        Cost:\n" + resultstr + "\n Are you sure you want to reserve this house? (Select 1 for yes, 2 for no)\n";
 	}
 
+	public String getRec(Statement stmt, String login, String hid) throws Exception
+	{
+		String query;
+		String resultstr="";
+		ResultSet results;
+		query = "select t.hid, t.category from TH t, "
+				+ "(select distinct hid from Reserve r, (select login from Reserve where hid = "+hid+" and login != '"+login+"') as a "
+				+ "where r.login = a.login and r.hid != 1) as b where t.hid = b.hid;";
+		try{
+			results = stmt.executeQuery(query);
+        } catch(Exception e) {
+			System.err.println("Unable to execute query:"+query+"\n");
+	                System.err.println(e.getMessage());
+			throw(e);
+		}
+		System.out.println("TH:getRec query = "+query+"\n");
+		while (results.next()){
+			resultstr += results.getString("hid") +"     "+ results.getString("category")+"\n";	
+		}
+		return "hid:     category:\n"+resultstr+"\n";
+	}
 }

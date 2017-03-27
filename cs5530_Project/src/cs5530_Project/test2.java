@@ -77,7 +77,10 @@ public class test2 {
 	            						 +" values('"+login+"', "+choice+", "+choice1+");";
 	            				 con.stmt.executeUpdate(query);
 	            				 
-	            				 System.out.println("You have succesfully made a reservation! returning you to the main screen.\n");
+	            				 System.out.println("You have succesfully made a reservation! returning you to the main screen.\n"+
+	            				 "Here are som suggested housing options for you.\n\n");
+	            				 
+	            				 System.out.println(test.getRec(con.stmt, login, choice));
 	            			 }
 	            		 }
 	            		 displayLoggedInMenu();
