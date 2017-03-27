@@ -41,6 +41,14 @@ public class test2 {
     	 System.out.println("Please enter your choice:");
 	}
 	
+	public static void displayAdminMenu()
+	{
+		System.out.println("        UOTEL ADMIN ACCOUNT       ");
+		System.out.println("1. Find top 'trusted' users:");
+		System.out.println("2. Find top 'useful' users:");
+		System.out.println("3. exit:");
+	}
+	
 	public static void main(String[] args) 
 	{
 		Connector con=null;
@@ -60,6 +68,38 @@ public class test2 {
 	             {
 	            	 if(loggedIn)
 	            	 {
+	            		 if(login.equals("admin"))
+	            		 {
+	            			 String num;
+	            			 displayAdminMenu();
+	            			 while ((choice = in.readLine()) == null && choice.length() == 0);
+			            	 try{
+			            		 c = Integer.parseInt(choice);
+			            	 }catch (Exception e){continue;}
+			            	 if(c<1 | c>4)
+			            		 continue;
+			            	 if(c==1)
+			            	 {
+			            		 AdminSQL test = new AdminSQL();
+			            		 System.out.println("How many users would you like to view?\n");
+			            		 while ((num = in.readLine()) == null && login.length() == 0);
+			            		 System.out.println(test.getTrusted(con.stmt, num));
+			            		 continue;
+			            	 }
+			            	 else if(c == 2)
+			            	 {
+			            		 AdminSQL test = new AdminSQL();
+			            		 System.out.println("How many users would you like to view?\n");
+			            		 while ((num = in.readLine()) == null && login.length() == 0);
+			            		 System.out.println(test.getUseful(con.stmt, num));
+			            		 continue;
+			            	 }
+			            	 else{
+			            		 loggedIn = false;
+			            		 continue;
+			            	 }
+			            	 
+	            		 }
 	            		 if(reserve)
 	            		 {
 	            			 choice = in.readLine();
@@ -292,7 +332,6 @@ public class test2 {
 			            	 
 			            	 String result = trusted.get(con.stmt,login,login2,isTrusted);
 			            	 System.out.println(result);
-			            	 
 		            	 }else if(c == 9) //Search for houses
 		            	 {
 		            		 address = "";
@@ -470,7 +509,7 @@ public class test2 {
 			            			 category,categorySearchTerm,userInput,login);
 			            	 
 			            	 System.out.println(result);
-			            	 
+			            	 continue;
 		            	 }else if(c == 10) //Useful feedbacks
 		            	 {
 		            		 System.out.println("Please enter the house you want the most useful feedback for (by house's id number):");
