@@ -32,8 +32,11 @@ public class test2 {
     	 System.out.println("6. Enter feedback for a house:");
     	 System.out.println("7. Rate usefulness of feedback:");
     	 System.out.println("8. Declare another user as trusted:");
+    	 System.out.println("9. Search for a house:");
     	 System.out.println("10. Find most useful feedbacks:");
     	 System.out.println("11. Add a visit:");
+    	 System.out.println("12. Check degrees of seperation:");
+    	 System.out.println("13. Check statistics:");
     	 System.out.println("15. Exit:");
     	 System.out.println("Please enter your choice:");
 	}
@@ -290,6 +293,184 @@ public class test2 {
 			            	 String result = trusted.get(con.stmt,login,login2,isTrusted);
 			            	 System.out.println(result);
 			            	 
+		            	 }else if(c == 9) //Search for houses
+		            	 {
+		            		 address = "";
+		            		 String cityOrState = "";
+		            		 String price = "";
+		            		 String priceAndOr = "";
+		            		 String addressAndOr = "";
+		            		 String nameAndOr = "";
+		            		 String houseName = "";
+		            		 String category = "";
+		            		 int lowPrice = 0;
+		            		 int highPrice = 0;
+		            		 String nameSearchTerm = "";
+		            		 String addressSearchTerm = "";
+		            		 String categorySearchTerm = "";
+		            		 
+		            		 System.out.println("Would you like to search by price? (Enter yes or no):");
+			            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+			            	 price = userInput;
+			            	 
+			            	 if(price.equalsIgnoreCase("yes"))
+			            	 {
+			            		 System.out.println("Enter the low value for your price range:");
+				            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+				            	 
+				            	 try{
+				            		 lowPrice = Integer.parseInt(userInput);
+				            	 }catch (Exception e)
+				            	 {
+				            		 System.out.println("Invalid price");
+				            		 continue;
+				            	 }
+				            	 
+				            	 System.out.println("Enter the high value for your price range:");
+				            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+				            	 
+				            	 try{
+				            		 highPrice = Integer.parseInt(userInput);
+				            	 }catch (Exception e)
+				            	 {
+				            		 System.out.println("Invalid price");
+				            		 continue;
+				            	 }
+			            		 
+			            		 System.out.println("Would you like price ANDed or ORed with other options? (Enter and or or):");
+				            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+				            	 priceAndOr = userInput;
+				            	 
+				            	 if(!(priceAndOr.equalsIgnoreCase("and") || priceAndOr.equalsIgnoreCase("or")))
+				            	 {
+				            		 System.out.println("Invalid option.");
+				            		 continue;
+				            	 }
+			            	 }
+			            	 
+			            	 System.out.println("Would you like to search by address? (Enter yes or no):");
+			            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+			            	 address = userInput;
+			            	 
+			            	 if(address.equalsIgnoreCase("yes"))
+			            	 {
+			            		 System.out.println("Would you like to search by city or state? (Enter city or state):");
+				            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+				            	 cityOrState = userInput;
+				            	 
+				            	 if(!(cityOrState.equalsIgnoreCase("city") || cityOrState.equalsIgnoreCase("state")))
+				            	 {
+				            		 System.out.println("Invalid option.");
+				            		 continue;
+				            	 }
+				            	 
+				            	 System.out.println("Enter your address search term:");
+				            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+				            	 addressSearchTerm = userInput;
+				            	 
+				            	 System.out.println("Would you like address ANDed or ORed with other options? (Enter and or or):");
+				            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+				            	 addressAndOr = userInput;
+				            	 
+				            	 if(!(addressAndOr.equalsIgnoreCase("and") || addressAndOr.equalsIgnoreCase("or")))
+				            	 {
+				            		 System.out.println("Invalid option.");
+				            		 continue;
+				            	 }
+			            	 }
+			            	 
+			            	 System.out.println("Would you like to search by name? (Enter yes or no):");
+			            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+			            	 houseName = userInput;
+			            	 
+			            	 if(houseName.equalsIgnoreCase("yes"))
+			            	 {
+			            		 System.out.println("Enter your name search term:");
+				            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+				            	 nameSearchTerm = userInput;
+			            		 
+			            		 System.out.println("Would you like name ANDed or ORed with other options? (Enter and or or):");
+				            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+				            	 nameAndOr = userInput;
+				            	 
+				            	 if(!(nameAndOr.equalsIgnoreCase("and") || nameAndOr.equalsIgnoreCase("or")))
+				            	 {
+				            		 System.out.println("Invalid option.");
+				            		 continue;
+				            	 }
+			            	 }
+			            	 
+			            	 System.out.println("Would you like to search by category? (Enter yes or no):");
+			            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+			            	 category = userInput;
+			            	 
+			            	 if(category.equalsIgnoreCase("yes"))
+			            	 {
+			            		System.out.println("Enter your category search term:");
+			            	 	while ((userInput = in.readLine()) == null && userInput.length() == 0);
+			            	 	categorySearchTerm = userInput;
+			            	 }
+			            	 
+			            	 String searchInput = "You have entered:";
+			            	 
+			            	 if(price.equalsIgnoreCase("yes"))
+			            	 {
+			            		 searchInput += " price: " + lowPrice + " to " + highPrice;
+			            		 
+			            		 if(address.equalsIgnoreCase("yes") || houseName.equalsIgnoreCase("yes") || category.equalsIgnoreCase("yes"))
+				            	 {
+				            		 searchInput += " " + priceAndOr;
+				            	 }
+			            	 }
+			            	 
+			            	 if(address.equalsIgnoreCase("yes"))
+			            	 {
+			            		 searchInput += " " + cityOrState + ": " + addressSearchTerm;
+			            		 
+			            		 if(houseName.equalsIgnoreCase("yes") || category.equalsIgnoreCase("yes"))
+				            	 {
+				            		 searchInput += " " + addressAndOr;
+				            	 }
+			            	 }
+			            	 
+			            	 if(houseName.equalsIgnoreCase("yes"))
+			            	 {
+			            		 searchInput += " name: " + nameSearchTerm;
+			            		 
+			            		 if(category.equalsIgnoreCase("yes"))
+				            	 {
+				            		 searchInput += " " + nameAndOr;
+				            	 }
+			            	 }
+			            	 
+			            	 if(category.equalsIgnoreCase("yes"))
+			            	 {
+			            		 searchInput += " category: " + categorySearchTerm;
+			            	 }
+			            	 
+			            	 if(searchInput.equals("You have entered:"))
+			            	 {
+			            		 continue;
+			            	 }
+			            	 
+			            	 System.out.println("Would you like to sort by: \n1.Price\n2.Average Feedback\n3.Average Feedback from Trusted Users:");
+			            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+			            	 if(!(userInput.equalsIgnoreCase("1") || userInput.equalsIgnoreCase("2") || userInput.equalsIgnoreCase("3")))
+			            	 {
+			            		 System.out.println("Invalid input");
+			            		 continue;
+			            	 }
+			            	 
+			            	 System.out.println(searchInput);
+			            	 
+			            	 THSearching search = new THSearching();
+			            	 String result = search.get(con.stmt,price,priceAndOr,lowPrice,highPrice,
+			            			 address,addressAndOr,cityOrState,addressSearchTerm,
+			            			 houseName,nameAndOr,nameSearchTerm,
+			            			 category,categorySearchTerm,userInput,login);
+			            	 
+			            	 System.out.println(result);
+			            	 
 		            	 }else if(c == 10) //Useful feedbacks
 		            	 {
 		            		 System.out.println("Please enter the house you want the most useful feedback for (by house's id number):");
@@ -321,7 +502,78 @@ public class test2 {
 		            		 if(choice1.equals("1"))
 		            			 test.addVisit(con.stmt, login, hid, pid);
 		            		 continue;
-		            	 }
+		            	 }else if(c==12) //Two degrees of separation
+		            	 {
+		            		 String login1,login2;
+		            		 
+		            		 System.out.println("Please enter the first login:");
+		            		 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+		            		 login1 = userInput;
+		            		 System.out.println("Please enter the second login:");
+		            		 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+		            		 login2 = userInput;
+		            		 
+		            		 Degrees deg = new Degrees();
+		            		 String result = deg.get(con.stmt, login1, login2);
+		            		 System.out.println(result);
+		            		 
+		            	 }else if(c==13) //Statistics
+		            	 {
+		            		 System.out.println("1. List the most popular houses for each category:");
+		            		 System.out.println("2. List the most expensive houses for each category:");
+		            		 System.out.println("3. List the most highly rated houses for each category:");
+		            		 System.out.println("4. Go back:");
+		            		 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+		            		 int tempChoice;
+		            		 try{
+		            			 tempChoice = Integer.parseInt(userInput);
+			            	 }catch (Exception e)
+			            	 {
+			            		 continue;
+			            	 }
+		            		 
+		            		 switch(tempChoice)
+		            		 {
+		            		 	case 1: // most popular
+		            		 	{
+				            		 System.out.println("Please enter the number of most popular houses you want to see:");
+					            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+					            	 
+					            	 Statistics stat = new Statistics();
+					            	 
+					            	 String result = stat.getMostPopular(con.stmt,userInput);
+					            	 System.out.println(result);
+					            	 break;
+		            		 	}
+		            		 	case 2: // most expensive
+		            		 	{
+				            		 System.out.println("Please enter the number of most expensive houses you want to see:");
+					            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+					            	 
+					            	 Statistics stat = new Statistics();
+					            	 
+					            	 String result = stat.getMostExpensive(con.stmt,userInput);
+					            	 System.out.println(result);
+					            	 break;
+		            		 	}
+		            		 	case 3: // most highly rated
+		            		 	{
+				            		 System.out.println("Please enter the number of most highly rated houses you want to see:");
+					            	 while ((userInput = in.readLine()) == null && userInput.length() == 0);
+					            	 
+					            	 Statistics stat = new Statistics();
+					            	 
+					            	 String result = stat.getHighestRated(con.stmt,userInput);
+					            	 System.out.println(result);
+					            	 break;
+		            		 	}
+		            		 	default:
+		            		 	{
+		            		 		continue;
+		            		 	}
+		            		 }
+		            		 
+		            	 }else
 		            	 {   
 		            		 System.out.println("Thank you for using Uotel.");
 		            		 con.stmt.close(); 
