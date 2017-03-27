@@ -4,7 +4,7 @@ import java.sql.*;
 
 import java.io.*;
 
-public class test2 {
+public class Uotel {
 
 	/**
 	 * @param args
@@ -25,6 +25,7 @@ public class test2 {
 	public static void displayLoggedInMenu()
 	{
 		 System.out.println("        Welcome to the Uotel System     ");
+		 System.out.println("1. Logout:");
     	 System.out.println("2. Reserve:");
     	 System.out.println("3. Add new house:");
     	 System.out.println("4. Edit existing house:");
@@ -120,8 +121,8 @@ public class test2 {
 	            						 +" values('"+login+"', "+choice+", "+choice1+");";
 	            				 con.stmt.executeUpdate(query);
 	            				 
-	            				 System.out.println("You have succesfully made a reservation! returning you to the main screen.\n"+
-	            				 "Here are som suggested housing options for you.\n\n");
+	            				 System.out.println("You have succesfully made a reservation! Returning you to the main screen.\n"+
+	            				 "Here are some suggested housing options for you.\n\n");
 	            				 
 	            				 System.out.println(test.getRec(con.stmt, login, choice));
 	            			 }
@@ -141,8 +142,9 @@ public class test2 {
 		            	 
 	            		 if (c==1)
 		            	 {
-		            		 TestSQL test = new TestSQL();
-		            		 System.out.println(test.get(con.stmt));
+		            		 System.out.println("You have been logged out.");
+		            		 loggedIn = false;
+		            		 continue;
 		            	 }else if(c == 2)
 		            	 {
 		            		 GetTH test = new GetTH();
@@ -171,7 +173,7 @@ public class test2 {
 			            	 System.out.println("Are you sure you would like to add this house?\n"
 			         				+ category + ", "+address1 + ", "+url + ", "+tele + ", "+built+
 			         				" "+city+" "+state+"'\n"
-			         				+ "Select 1 for yest, 0 for no.");
+			         				+ "Select 1 for yes, 0 for no.");
 			            	 while ((next = in.readLine()) == null && login.length() == 0);
 			            	 if(next.equals("1"))
 			            	 {
@@ -205,7 +207,7 @@ public class test2 {
 			            	 System.out.println("Are you sure you would like to make these changes to the house?\n"
 			         				+ category + ", "+address1 + ", "+url + ", "+tele + ", "+built+
 			         				" "+city+" "+state+"'\n"
-			         				+ "Select 1 for yest, 0 for no.");
+			         				+ "Select 1 for yes, 0 for no.");
 			            	 while ((next = in.readLine()) == null && login.length() == 0);
 			            	 if(next.equals("1"))
 			            	 {

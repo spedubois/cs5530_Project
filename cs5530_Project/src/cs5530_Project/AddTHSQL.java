@@ -85,7 +85,7 @@ public class AddTHSQL {
 	                System.err.println(e.getMessage());
 			throw(e);
 		}
-		System.out.println("You have sucessfully upadte your house!\n");
+		System.out.println("You have sucessfully updated your house!\n");
 	}
 }
 
